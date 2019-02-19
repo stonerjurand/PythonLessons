@@ -5,6 +5,14 @@ equation = 'y = -12x + 11111140.2121'
 x = 2.5
 # вычислите и выведите y
 
+equation = equation.split(' ')
+
+k = float(equation[2][:-1])
+b = float(equation[-1])
+
+y = (k*x) + b
+
+print(f'y = {y}')
 
 # Задание-2: Дата задана в виде строки формата 'dd.mm.yyyy'.
 # Проверить, корректно ли введена дата.
@@ -24,6 +32,45 @@ date = '01.22.1001'
 date = '1.12.1001'
 date = '-2.10.3001'
 
+inputDate = '01.11.1985'
+
+errorCounter = 0
+
+inputDate = inputDate.split('.')
+
+correctNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+monthMaxDays = {
+    "01": 31, "02": 29, "03": 31, "04": 30,
+    "05": 31, "06": 30, "07": 31, "08": 31,
+    "09": 30, "10": 31, "11": 30, "12": 31,
+}
+
+zerocheck = []
+
+for i in inputDate[::-1]:
+    for j in list(i):
+        if j in correctNumbers:  # проверка на корректность введенных символов
+            zerocheck.append(int(j))
+        else:
+            errorCounter += 1
+    if sum(zerocheck) != 0:  # проверка на нулевые значения дат
+        zerocheck = []
+    else:
+        errorCounter += 1
+    if inputDate.index(i) < 2 and len(i) != 2:  # проверка на длину строки в значении dd/mm
+        errorCounter += 1
+    elif inputDate.index(i) == 2 and len(i) != 4:  # проверка на длину строки в значении yyyy
+        errorCounter += 1
+    if inputDate.index(i) == 1 and i[0] != '0':  # проверка на превышение допустимой нумерации mm
+        if int(i) > 12:
+            errorCounter += 1
+    if inputDate.index(i) == 0 and i[0] != '0':  # проверка на превышение допустимой нумерации dd в зависимости от mm
+        if int(i) > monthMaxDays[inputDate[1]]:
+            errorCounter += 1
+
+if errorCounter != 0:
+    print("Дата введена некорректно")
 
 # Задание-3: "Перевёрнутая башня" (Задача олимпиадного уровня)
 #
