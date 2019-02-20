@@ -3,7 +3,10 @@
 # Первыми элементами ряда считать цифры 1 1
 
 def fibonacci(n, m):
-    pass
+    fib = [1,1]
+    while len(fib) < m:
+        fib.append(sum(fib[-2:]))
+    return fib[n:m]
 
 # Задача-2:
 # Напишите функцию, сортирующую принимаемый список по возрастанию.
@@ -12,9 +15,15 @@ def fibonacci(n, m):
 
 
 def sort_to_max(origin_list):
-    pass
+    for i in range(len(origin_list) - 1):
+        for j in range(len(origin_list) - i - 1):
+            if origin_list[j] > origin_list[j + 1]:
+                origin_list[j], origin_list[j + 1] = origin_list[j + 1], origin_list[j]
+    return origin_list
 
-sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0])
+
+print(sort_to_max([2, 10, -12, 2.5, 20, -11, 4, 4, 0]))
+
 
 # Задача-3:
 # Напишите собственную реализацию стандартной функции filter.
