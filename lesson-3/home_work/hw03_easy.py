@@ -41,7 +41,7 @@ print(my_round(2.9999967, 5))
 
 def lucky_ticket(ticket_number):
     number = list(str(ticket_number))
-    listnumber = list(map(lambda x : int(x), number))
+    listnumber = list(map(lambda x: int(x), number))
     if len(number) == 6:
         if sum(listnumber[:3]) == sum(listnumber[3:]):
             return 'Поздравляем! У Вас счастливый билет!'

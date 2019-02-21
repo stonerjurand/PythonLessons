@@ -18,6 +18,31 @@
 # они получают удвоенную ЗП, пропорциональную норме.
 # Кол-во часов, которые были отработаны, указаны в файле "data/hours_of"
 
+import os
+
+normDict = {}
+
+with open(os.path.join('data', 'workers'), 'r', encoding='UTF-8') as workers:
+    next(workers)
+    for line in workers:
+        line = line.split()
+        normDict[' '.join(line[:2])] = [int(line[2]), int(line[4]), int(line[2])/int(line[4])]
+
+factDict = {}
+
+with open(os.path.join('data', 'hours_of'), 'r', encoding='UTF-8') as hours:
+    next(hours)
+    for line in hours:
+        line = line.split()
+        factDict[' '.join(line[:2])] = int(line[2])
+
+for key, value in factDict.items():
+    if value > normDict[key][1]:
+        payment = normDict[key][0] + (value-normDict[key][1])*2*value-normDict[key][2]
+    else:
+        payment = value/normDict[key][1]*normDict[key][0]
+    print(f'Выплата для сотрудника {key} составит {round(payment,2)} рублей')
+
 
 # Задание-3:
 # Дан файл ("data/fruits") со списком фруктов.
@@ -31,3 +56,22 @@
 # Подсказка:
 # Чтобы получить список больших букв русского алфавита:
 # print(list(map(chr, range(ord('А'), ord('Я')+1))))
+
+fruitsDict = {}
+
+with open(os.path.join('data', 'fruits.txt'), 'a', encoding='UTF-8') as fruits:
+    fruits.write('\n')
+
+with open(os.path.join('data', 'fruits.txt'), 'r', encoding='UTF-8') as fruits:
+    for line in fruits:
+        if line[0] not in fruitsDict:
+            fruitsDict[line[0]] = []
+        else:
+            fruitsDict[line[0]].append(line)
+
+fruitsDict.pop('\n')
+print(fruitsDict)
+
+for key, value in fruitsDict.items():
+    with open(os.path.join('data', f'fruits_{key}.txt'), 'w', encoding='UTF-8') as f:
+        f.writelines(value)
