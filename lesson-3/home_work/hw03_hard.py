@@ -59,9 +59,6 @@ for key, value in factDict.items():
 
 fruitsDict = {}
 
-with open(os.path.join('data', 'fruits.txt'), 'a', encoding='UTF-8') as fruits:
-    fruits.write('\n')
-
 with open(os.path.join('data', 'fruits.txt'), 'r', encoding='UTF-8') as fruits:
     for line in fruits:
         if line[0] not in fruitsDict:
@@ -70,7 +67,6 @@ with open(os.path.join('data', 'fruits.txt'), 'r', encoding='UTF-8') as fruits:
             fruitsDict[line[0]].append(line)
 
 fruitsDict.pop('\n')
-print(fruitsDict)
 
 for key, value in fruitsDict.items():
     with open(os.path.join('data', f'fruits_{key}.txt'), 'w', encoding='UTF-8') as f:
