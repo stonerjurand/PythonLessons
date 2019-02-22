@@ -28,10 +28,56 @@ def my_round(number, ndigits):
         return float(''.join(number))
 
 
+# print(my_round(2.1234567, 5))
+# print(my_round(2.1999967, 5))
+# print(my_round(2.9999967, 5))
+
+#print("Test1")
+print(f'Mine: {my_round(2.1234567, 5)}')
+print(f'Built-in: {round(2.1234567, 5)}')
+print(f'Mine: {my_round(2.1999967, 5)}')
+print(f'Built-in: {round(2.1999967, 5)}')
+print(f'Mine: {my_round(2.9999967, 5)}')
+print(f'Built-in: {round(2.9999967, 5)}')
+print("Test2")
+print(f'Mine: {my_round(-2.1234567, 5)}')
+print(f'Built-in: {round(-2.1234567, 5)}')
+print(f'Mine: {my_round(-2.1999967, 5)}')
+print(f'Built-in: {round(-2.1999967, 5)}')
+print(f'Mine: {my_round(-2.9999967, 5)}')
+print(f'Built-in: {round(-2.9999967, 5)}')
+print("Test3")
+print(f'Mine: {my_round(-2.1234567, 0)}')
+print(f'Built-in: {round(-2.1234567, 0)}')
+print(f'Mine: {my_round(-2.1999967, 0)}')
+print(f'Built-in: {round(-2.1999967, 0)}')
+print(f'Mine: {my_round(-2.9999967, 0)}')
+print(f'Built-in: {round(-2.9999967, 0)}')
+print("Test4")
+print(f'Mine: {my_round(2.1234567, -5)}')
+print(f'Built-in: {round(2.1234567, -5)}')
+print(f'Mine: {my_round(2.1999967, -5)}')
+print(f'Built-in: {round(2.1999967, -5)}')
+print(f'Mine: {my_round(2.9999967, -5)}')
+print(f'Built-in: {round(2.9999967, -5)}')
+print("Test5")
+print(f'Mine: {my_round(-2.1234567, -5)}')
+print(f'Built-in: {round(-2.1234567, -5)}')
+print(f'Mine: {my_round(-2.1999967, -5)}')
+print(f'Built-in: {round(-2.1999967, -5)}')
+print(f'Mine: {my_round(-2.9999967, -5)}')
+print(f'Built-in: {round(-2.9999967, -5)}')
+print("Test6")
+print(f'Mine: {my_round(-253002.1234567, -5)}')
+print(f'Built-in: {round(-253002.1234567, -5)}')
+print(f'Mine: {my_round(-2.1999967, -5)}')
+print(f'Built-in: {round(-2.1999967, -5)}')
+print(f'Mine: {my_round(-2.9999967, -5)}')
+print(f'Built-in: {round(-2.9999967, -5)}')
+
 print(my_round(2.1234567, 5))
 print(my_round(2.1999967, 5))
 print(my_round(2.9999967, 5))
-
 
 # Задание-2:
 # Дан шестизначный номер билета. Определить, является ли билет счастливым.
@@ -39,19 +85,19 @@ print(my_round(2.9999967, 5))
 # Билет считается счастливым, если сумма его первых и последних цифр равны.
 # !!!P.S.: функция не должна НИЧЕГО print'ить
 
-def lucky_ticket(ticket_number):
-    number = list(str(ticket_number))
-    listnumber = list(map(lambda x: int(x), number))
-    if len(number) == 6:
-        if sum(listnumber[:3]) == sum(listnumber[3:]):
-            return 'Поздравляем! У Вас счастливый билет!'
-        else:
-            return 'Возможно в следующий раз Вам повезёт!'
-    else:
-        return 'Введите корректный номер билета, состоящий из 6 цифр'
-
-
-
-print(lucky_ticket(123006))
-print(lucky_ticket(12321))
-print(lucky_ticket(436751))
+# def lucky_ticket(ticket_number):
+#     number = list(str(ticket_number))
+#     listnumber = list(map(lambda x: int(x), number))
+#     if len(number) == 6:
+#         if sum(listnumber[:3]) == sum(listnumber[3:]):
+#             return 'Поздравляем! У Вас счастливый билет!'
+#         else:
+#             return 'Возможно в следующий раз Вам повезёт!'
+#     else:
+#         return 'Введите корректный номер билета, состоящий из 6 цифр'
+#
+#
+#
+# print(lucky_ticket(123006))
+# print(lucky_ticket(12321))
+# print(lucky_ticket(436751))
