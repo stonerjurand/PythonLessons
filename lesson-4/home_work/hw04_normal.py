@@ -23,7 +23,11 @@ line = 'mtMmEZUOmcqWiryMQhhTxqKdSTKCYEJlEZCsGAMkgAYEOmHBSQsSUHKvSfbmxULaysmNO'\
 import re
 
 
-result = re.findall(r'(?<=[A-Z])[a-z]+(?=[A-Z])', line)
+result = []  # re.findall(r'((?<=[A-Z])|(?<=^))[a-z]+((?=$)|(?=[A-Z]))', line)
+             # ^ сработло только в песочнице https://regex101.com/
+result += re.findall(r'(?<=^)[a-z]+(?=[A-Z])', line)
+result += re.findall(r'(?<=[A-Z])[a-z]+(?=[A-Z])', line)
+result += re.findall(r'(?<=[A-Z])[a-z]+(?=$)', line)
 
 print(result)
 
@@ -61,3 +65,35 @@ print(result_2)
 # 2500-значное произвольное число.
 # Найдите и выведите самую длинную последовательность одинаковых цифр
 # в вышезаполненном файле.
+
+from random import randint
+
+
+with open('number.txt', 'w', encoding='UTF-8') as f:
+       f.write(str(randint(1,9)))
+       for i in range(2499):
+              f.write(str(randint(0,9)))
+
+with open('number.txt', 'r', encoding='UTF-8') as f:
+       number = f.read()
+       maxString = ['']
+       newString = ''
+       for i in range(1, len(number)):
+              if number[i] == number[i-1]:
+                     newString += number[i]
+              elif len(newString) == len(maxString[0]):
+                     maxString.append(newString)
+                     newString = ''
+              elif len(newString) > len(maxString[0]):
+                     maxString = [newString]
+                     newString = ''
+              else:
+                     newString = ''
+       maxString = list(set(maxString))  # опциональная строка, если не нужно выводить одинаковые последовательности
+       if len(maxString) > 1:
+              print("Самые длинные последовательности одинаковых цифр: ", end='')
+              for j in maxString:
+                     print(j+j[0], end='; ')
+       else:
+              print("Самая длинная последовательность одинаковых цифр: "+maxString[0]+maxString[0][0])
+
