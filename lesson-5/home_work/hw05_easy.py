@@ -3,8 +3,7 @@
 # из которой запущен данный скрипт.
 # И второй скрипт, удаляющий эти папки.
 import os
-import sys
-#from hw05_normal import dir_name
+
 
 def make_dir(dir_name):
     if not dir_name:
