@@ -44,7 +44,9 @@ if __name__ == "__main__":
 # Напишите скрипт, отображающий папки текущей директории.
 def list_dir():
     files = os.listdir(path=os.getcwd())
-    print(files)
+    folders = [i for i in files if os.path.isdir(os.path.join(os.getcwd(), i))]
+    print(folders)
+
 # Задача-3:
 # Напишите скрипт, создающий копию файла, из которого запущен данный скрипт.
 def make_copy():
