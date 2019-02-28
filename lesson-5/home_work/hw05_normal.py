@@ -28,7 +28,7 @@ def dir_into(dir_name):
     try:
         os.chdir(dir_path)
         print(f'выполнен переход в директорию {dir_name}')
-    except FileNotFoundError:
+    except NotADirectoryError:
         print(f'директория {dir_name} не существует')
 
 
