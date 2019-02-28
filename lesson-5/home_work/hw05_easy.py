@@ -8,7 +8,7 @@ import sys
 
 def make_dir(dir_name):
     if not dir_name:
-        print("Необходимо указать имя директории вторым параметром")
+        print("Необходимо указать имя директории")
         return
     dir_path = os.path.join(os.getcwd(), dir_name)
     try:
@@ -17,12 +17,26 @@ def make_dir(dir_name):
     except FileExistsError:
         print(f'директория {dir_name} уже существует')
 
+
+def del_dir(dir_name):
+    if not dir_name:
+        print("Необходимо указать имя директории вторым параметром")
+        return
+    dir_path = os.path.join(os.getcwd(), dir_name)
+    try:
+        os.rmdir(dir_path)
+        print(f'директория {dir_name} удалена')
+    except FileNotFoundError:
+        print(f'директория {dir_name} не существует')
+
 if __name__ == "__main__":
     for i in range(1,10):
         dir_name = f'dir_{i}'
-        make_dir()
+        make_dir(dir_name)
 
-
+    for i in range(1,10):
+        dir_name = f'dir_{i}'
+        del_dir(dir_name)
 
 
 # Задача-2:
@@ -38,7 +52,4 @@ def make_copy():
     copy_name = file_name.replace('.', '_copy.')
     os.popen(f'copy {file_name} {copy_name}')
 
-# try:
-#     dir_name = sys.argv[1]
-# except IndexError:
-#     dir_name = None
+
