@@ -22,68 +22,86 @@ print('sys.argv = ', sys.argv)
 def print_help():
     print("help - получение справки")
     print("mkdir <dir_name> - создание директории")
+    print("cp <file_name> - создает копию указанного файла")
+    print("rm <file_name> - удаляет указанный файл")
+    print("cd <full_path or relative_path> - меняет текущую директорию на указанную")
+    print("ls - отображение полного пути текущей директории")
     print("ping - тестовый ключ")
 
 
 def make_dir():
-    if not dir_name:
+    if not pointer:
         print("Необходимо указать имя директории вторым параметром")
         return
-    dir_path = os.path.join(os.getcwd(), dir_name)
+    dir_path = os.path.join(os.getcwd(), pointer)
     try:
         os.mkdir(dir_path)
-        print('директория {} создана'.format(dir_name))
+        print('директория {} создана'.format(pointer))
     except FileExistsError:
-        print('директория {} уже существует'.format(dir_name))
+        print('директория {} уже существует'.format(pointer))
 
 
 def make_copy():
-    if not dir_name:
+    if not pointer:
         print("Необходимо указать имя файла вторым параметром")
         return
     try:
-        copy_name = dir_name.replace('.', '_copy.')
-        os.popen(f'copy {dir_name} {copy_name}')
+        copy_name = pointer.replace('.', '_copy.')
+        os.popen(f'copy {pointer} {copy_name}')
+        print(f'Файл скопирован под именем {copy_name}')
     except FileNotFoundError:
         print("Невозможно найти указанный файл")
 
 
 def del_file():
-    if not dir_name:
+    if not pointer:
         print("Необходимо указать имя файла вторым параметром")
         return
-    try:
-        os.remove(dir_name)
-        print(f'файл {dir_name} удален')
-    except FileNotFoundError:
-        print(f'файл {dir_name} не существует')
+    answer = input('Вы уверены? [Y/N]: ')
+    if answer == 'Y':
+        try:
+            os.remove(pointer)
+            print(f'файл {pointer} удален')
+        except FileNotFoundError:
+            print(f'файл {pointer} не существует')
 
 
-def change_dir(dir_name):
-    if not dir_name:
-        print("Необходимо указать имя директории")
+def change_dir():
+    if not pointer:
+        print("Необходимо указать путь")
         return
-    dir_path = os.path.join(os.getcwd(), dir_name)
     try:
-        os.chdir(dir_path)
-        print(f'выполнен переход в директорию {dir_name}')
-    except FileNotFoundError:
-        print(f'директория {dir_name} не существует')
+        if os.path.isabs(pointer):
+            os.chdir(pointer)
+        else:
+            dir_path = os.path.join(os.getcwd(), pointer)
+            os.chdir(dir_path)
+        print(f'выполнен переход в директорию {pointer}')
+    except NotADirectoryError:
+        print(f'директория {pointer} не существует')
 
+
+def print_path():
+    print(os.getcwd())
 
 def ping():
     print("pong")
 
+
 do = {
     "help": print_help,
     "mkdir": make_dir,
-    "ping": ping
+    "ping": ping,
+    'cp': make_copy,
+    'rm': del_file,
+    'cd': change_dir,
+    'ls': print_path
 }
 
 try:
-    dir_name = sys.argv[2]
+    pointer = sys.argv[2]
 except IndexError:
-    dir_name = None
+    pointer = None
 
 try:
     key = sys.argv[1]
@@ -93,7 +111,7 @@ except IndexError:
 
 if key:
     if do.get(key):
-        do[key](input())
+        do[key]()
     else:
         print("Задан неверный ключ")
         print("Укажите ключ help для получения справки")

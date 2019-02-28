@@ -29,6 +29,7 @@ def del_dir(dir_name):
     except FileNotFoundError:
         print(f'директория {dir_name} не существует')
 
+
 if __name__ == "__main__":
     for i in range(1,10):
         dir_name = f'dir_{i}'
@@ -47,9 +48,6 @@ def list_dir():
 # Задача-3:
 # Напишите скрипт, создающий копию файла, из которого запущен данный скрипт.
 def make_copy():
-    cur_path = sys.argv[0].split('/')
-    file_name = cur_path[-1]
+    file_name = os.path.basename(__file__)
     copy_name = file_name.replace('.', '_copy.')
     os.popen(f'copy {file_name} {copy_name}')
-
-
