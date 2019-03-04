@@ -86,6 +86,10 @@ class IsoTrap:
         sides = self.vectors
         return sides
 
+    @sides.setter
+    def sides(self, d):
+        self.sides = d
+    
     def isisotrap(self):
         checklist = []
         base = []
@@ -107,11 +111,14 @@ class IsoTrap:
                 self.sides[base[1]] = [self.lenvectors[base[1]], 'base']
                 self.sides[base[0][0] + base[1][0]] = [self.lenvectors[base[0][0] + base[1][0]], 'flank']
                 self.sides[base[0][1] + base[1][1]] = [self.lenvectors[base[0][1] + base[1][1]], 'flank']
+                return self.sides = self.sides
             else:
                 checklist.append(False)
         else:
             checklist.append(False)
         return np.prod(np.array(checklist))
+
+
 
     def lenside(self, side):
         for key, value in self.sides.items():
