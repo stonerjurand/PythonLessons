@@ -39,23 +39,107 @@ class Triangle:
         return self.square/sides[base]*2
 
 
-coords = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C']]
-
-t = Triangle(*coords)
-
-print(f'Площадь треугольника = {t.square}')
-print(f'Периметр треугольника = {t.perimeter()}')
-base = input('Введите название стороны основания (AB, AC или BC): ')
-print(f'Высота  треугольника по основанию {base} = {t.height(base.lower())}')
+# coords = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C']]
+#
+# t = Triangle(*coords)
+#
+# print(f'Площадь треугольника = {t.square}')
+# print(f'Периметр треугольника = {t.perimeter()}')
+# base = input('Введите название стороны основания (AB, AC или BC): ')
+# print(f'Высота  треугольника по основанию {base} = {t.height(base.lower())}')
 
 # Задача-2: Написать Класс "Равнобочная трапеция", заданной координатами 4-х точек.
 # Предусмотреть в классе методы:
 # проверка, является ли фигура равнобочной трапецией;
 # вычисления: длины сторон, периметр, площадь.
 
-class IsoscelesTrapezoid:
+class IsoTrap:
     def __init__(self, a, b, c, d):
         self.a = a
         self.b = b
         self.c = c
         self.d = d
+
+    @property
+    def coords(self):
+        coords = {'a': self.a, 'b': self.b, 'c': self.c, 'd': self.d}
+        return coords
+
+    @property
+    def vectors(self):
+        vectors = {}
+        for key, value in self.coords.items():
+            for subkey, subvalue in self.coords.items():
+                if subkey != key:
+                    vectors[key + subkey] = [subvalue[0] - value[0], subvalue[1] - value[1]]
+        return vectors
+
+    @property
+    def lenvectors(self):
+        lenvectors = {}
+        for key, value in self.vectors.items():
+            lenvectors[key] = math.sqrt(value[0]**2 + value[1]**2)
+        return lenvectors
+
+    @property
+    def sides(self):
+        sides = self.vectors
+        return sides
+
+    def isisotrap(self):
+        checklist = []
+        base = []
+        for key, value in self.vectors.items():
+            for subkey, subvalue in self.vectors.items():
+                if subkey[0] not in key or subkey[1] not in key:
+                    arr = np.array((value, subvalue))
+                    if np.linalg.matrix_rank(arr) == 1:
+                        checklist.append(True)
+                        if key not in base and subkey not in base:
+                            base.append(key)
+                            base.append(subkey)
+
+        if len(base) == 4:
+            if self.lenvectors[base[0][0] + base[1][1]] == self.lenvectors[base[1][0] + base[0][1]]:
+                checklist.append(True)
+                self.sides.clear()
+                self.sides[base[0]] = [self.lenvectors[base[0]], 'base']
+                self.sides[base[1]] = [self.lenvectors[base[1]], 'base']
+                self.sides[base[0][0] + base[1][0]] = [self.lenvectors[base[0][0] + base[1][0]], 'flank']
+                self.sides[base[0][1] + base[1][1]] = [self.lenvectors[base[0][1] + base[1][1]], 'flank']
+            else:
+                checklist.append(False)
+        else:
+            checklist.append(False)
+        return np.prod(np.array(checklist))
+
+    def lenside(self, side):
+        for key, value in self.sides.items():
+            if side[0] in key and side[1] in key:
+                return value[0]
+            else:
+                return f'{side} не является стороной равнобочной трапеции'
+
+    def perimeter(self):
+        return sum([i[0] for i in self.sides.values()])
+
+    def square(self):
+        bases = [i[0] for i in self.sides.values() if i[1] == 'base']
+        flank = sum([i[0] for i in self.sides.values() if i[1] == 'flank'])/2
+        return (sum(bases)/2)*math.sqrt(flank**2-((bases[0]-bases[1])**2/4))
+
+
+coordstrap = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C','D']]
+
+trap = IsoTrap(*coordstrap)
+
+if trap.isisotrap():
+    print(f'Введены координаты равнобочной трапеции')
+    print(f'Площадь равнобочной трапеции = {trap.square()}')
+    print(f'Периметр равнобочной трапеции = {trap.perimeter()}')
+    side = input('Введите название стороны: ')
+    print(f'Длина стороны {side} = {trap.lenside(base.lower())}')
+else:
+    print(f'Введенные координаты не соотвествуют равнобочной трапеции')
+
+
