@@ -39,13 +39,14 @@ class Triangle:
         return self.square/sides[base]*2
 
 
-coords = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C']]
+#coords = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C']]
+coords = [[3.5, 1], [-2, 6], [0, 6]]
 
 t = Triangle(*coords)
 
 print(f'Площадь треугольника = {t.square}')
 print(f'Периметр треугольника = {t.perimeter()}')
-base = input('Введите название стороны основания (AB, AC или BC): ')
+base = 'AC'  # input('Введите название стороны основания (AB, AC или BC): ')
 print(f'Высота  треугольника по основанию {base} = {t.height(base.lower())}')
 
 # Задача-2: Написать Класс "Равнобочная трапеция", заданной координатами 4-х точек.
@@ -110,11 +111,16 @@ class IsoTrap:
         return np.prod(np.array(checklist))
 
     def lenside(self, side):
+        lenside = None
         for key, value in self.sides.items():
             if side[0] in key and side[1] in key:
-                return value[0]
+                lenside = value[0]
             else:
-                return f'{side} не является стороной равнобочной трапеции'
+                continue
+        if lenside == None:
+            return f'{side} не является стороной равнобочной трапеции'
+        else:
+            return lenside
 
     def perimeter(self):
         return sum([i[0] for i in self.sides.values()])
@@ -125,7 +131,8 @@ class IsoTrap:
         return (sum(bases)/2)*math.sqrt(flank**2-((bases[0]-bases[1])**2/4))
 
 
-coordstrap = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C','D']]
+#coordstrap = [[float(i) for i in input(f'Введите координаты точки {j} через зяпятую: ').split(',')] for j in ['A','B','C','D']]
+coordstrap = [[3, 2], [3, 4], [5, 6], [7, 6]]
 
 trap = IsoTrap(*coordstrap)
 
@@ -133,7 +140,7 @@ if trap.isisotrap():
     print(f'Введены координаты равнобочной трапеции')
     print(f'Площадь равнобочной трапеции = {trap.square()}')
     print(f'Периметр равнобочной трапеции = {trap.perimeter()}')
-    side = input('Введите название стороны: ')
+    side = 'AD'  # input('Введите название стороны: ')
     print(f'Длина стороны {side} = {trap.lenside(side.lower())}')
 else:
     print(f'Введенные координаты не соотвествуют равнобочной трапеции')
