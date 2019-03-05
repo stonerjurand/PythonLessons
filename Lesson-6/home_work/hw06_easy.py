@@ -115,8 +115,6 @@ class IsoTrap:
         for key, value in self.sides.items():
             if side[0] in key and side[1] in key:
                 lenside = value[0]
-            else:
-                continue
         if lenside == None:
             return f'{side} не является стороной равнобочной трапеции'
         else:
