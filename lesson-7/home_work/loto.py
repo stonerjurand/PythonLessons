@@ -57,3 +57,96 @@
 модуль random: http://docs.python.org/3/library/random.html
 
 """
+
+import random
+import sys
+
+
+class Cask:
+    def __init__(self):
+        self.l = [i for i in range(1, 91)]
+    def get(self):
+        n = random.choice(self.l)
+        self.l.remove(n)
+        print()
+        print(f'Новый бочонок: {n} (осталось {len(self.l)})')
+        yield n
+
+
+class Loto:
+
+    def gen_card(self):
+        card = [[' ' for i in range(9)] for j in range(3)]
+
+        cardnumbers = [i for i in range(1,91)]
+
+        for line in card:
+            coords = [i for i in range(9)]
+            linecoords = []
+            numbers = []
+            for i in range(5):
+                num = random.choice(coords)
+                linecoords.append(num)
+                coords.remove(num)
+                number = random.choice(cardnumbers)
+                numbers.append(number)
+                cardnumbers.remove(number)
+            numbers = list(sorted(numbers))
+            linecoords = list(sorted(linecoords))
+            for i in range(len(numbers)):
+                line[linecoords[i]] = numbers[i]
+        return card
+
+    def get_card(self, player):
+        print()
+        print('{:-^25}'.format(player.name))
+        for line in player.card:
+            print(*line)
+        print('{:-^25}'.format('-'))
+
+    def check(self, player, cask_number):
+        checkbox = 0
+        for line in player.card:
+            for index, value in enumerate(line):
+                if value == cask_number:
+                    line[index] = '-'
+                    player.score += 1
+                    if player.score == 15:
+                        print(f'{player.name} выиграла!')
+                        sys.exit()
+                    checkbox = 1
+        return bool(checkbox)
+
+
+
+class Player(Loto):
+    def __init__(self, name):
+        self.name = name
+        self.score = 0
+        self.card = self.gen_card()
+
+
+game = Loto()
+cask = Cask()
+player = Player('Ваша карточка')
+comp = Player('Карточка компьютера')
+
+while True:
+    num_cask = next(cask.get())
+    game.get_card(player)
+    game.get_card(comp)
+
+    inp_user = input('Зачеркнуть цифру? (y/n)')
+    if inp_user == 'y':
+        if player.check(player, num_cask):
+            continue
+        else:
+            print('Игра закончена')
+            sys.exit()
+    if inp_user == 'n':
+        if player.check(player, num_cask):
+            print('Игра закончена')
+            sys.exit()
+        elif comp.check(comp, num_cask):
+            continue
+
